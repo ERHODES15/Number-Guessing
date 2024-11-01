@@ -12,7 +12,7 @@ while play == "Yes" or "yes":
     while guess != answer:
         tries += 1
         guess = input("What is your guess ")
-        guess = int(guess) 
+        guess = int(guess)
         if guess > 10:
             print("Guess is to high try again")
         elif guess < 1:
