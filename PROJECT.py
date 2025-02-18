@@ -1,32 +1,56 @@
 import random
-play = "Yes"
-tries = 0
-guess = 999 
-name = input("What is your name? ")
-print(f"Hey {name} it is nice to meet you.")
-print("Lets play a game.")
-print(" Pick a number 1 to 10 and i will tell you if it is higher or lower.")
-while play == "Yes" or "yes":    
-    tries = 0
-    answer = random.randrange(1,10)
-    while guess != answer:
-        tries += 1
-        guess = input("What is your guess ")
-        guess = int(guess)
-        if guess > 10:
-            print("Guess is to high try again")
-        elif guess < 1:
-            print("Guess is to low try again")
-        if guess > answer:
-            print("the answer is lower")
-            continue 
-        elif guess < answer:
-            print("the answer is higher")
-            continue
-        elif guess == answer:
-            print(f"You got it right good job, It took you {tries} tries")
+
+def display_intro():
+    print("Welcome to the Number Guessing Game!")
+    print("Try to guess the randomly chosen number within the given range.")
+
+def get_random_number():
+    return random.randint(1, 100)
+
+def get_user_guess():
+    while True:
+        try:
+            guess = int(input("Enter your guess (1-100): "))
+            if 1 <= guess <= 100:
+                return guess
+            else:
+                print("Invalid input. Please enter a number between 1 and 100.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
+
+def play_game():
+    random_number = get_random_number()
+    attempts = 0
+    
+    while True:
+        guess = get_user_guess()
+        attempts += 1
+        
+        if guess < random_number:
+            print("It's higher.")
+        elif guess > random_number:
+            print("It's lower.")
+        else:
+            print(f"Congratulations! You guessed the number in {attempts} attempts.")
+            return attempts
+
+def main():
+    display_intro()
+    high_score = None
+    
+    while True:
+        print("\nNew Game! Try to beat the high score!" if high_score else "\nLet's Start!")
+        attempts = play_game()
+        
+        if high_score is None or attempts < high_score:
+            high_score = attempts
+            print(f"New High Score: {high_score} attempts!")
+        
+        play_again = input("Would you like to play again? (yes/no): ").strip().lower()
+        if play_again != 'yes':
+            print("Thanks for playing! Goodbye!")
             break
-    play = input("Would you like to play again? ")
-    if play == "no" or  play == "No":
-        break
-print("Thanks for playing.")
+
+if __name__ == "__main__":
+    main()
+
